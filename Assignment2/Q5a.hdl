@@ -1,0 +1,15 @@
+// PARITY GENERATOR
+
+CHIP Q5a {
+    IN x7, x6, x5, x4, x3, x2, x1, x0;
+    OUT out;
+
+    PARTS:
+    Xor (a = x0, b = x1, out = temp1);
+    Xor (a = temp1, b = x2, out = temp2);
+    Xor (a = temp2, b = x3, out = temp3);
+    Xor (a = temp3, b = x4, out = temp4);
+    Xor (a = temp4, b = x5, out = temp5);
+    Xor (a = temp5, b = x6, out = temp6);
+    Xor (a = temp6, b = x7, out = out);
+}

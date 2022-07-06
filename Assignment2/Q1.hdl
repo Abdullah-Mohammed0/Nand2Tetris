@@ -1,0 +1,14 @@
+CHIP Q1 {
+    IN x01, x00, x11, x10, x21, x20, x31, x30, s1, s0;
+    OUT y1, y0;
+
+    PARTS:
+    Mux (a = x01, b = x11, sel = s0, out = temp01);
+    Mux (a = x00, b = x10, sel = s0, out = temp00);
+
+    Mux (a = x21, b = x31, sel = s0, out = temp11);
+    Mux (a = x20, b = x30, sel = s0, out = temp10);
+
+    Mux (a = temp01, b = temp11, sel = s1, out = y1);
+    Mux (a = temp00, b = temp10, sel = s1, out = y0);
+}

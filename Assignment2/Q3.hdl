@@ -1,0 +1,8 @@
+CHIP Q3 {
+    IN x1, x0, s2, s1, s0;
+    OUT y01, y00, y11, y10, y21, y20, y31, y30, y41, y40, y51, y50, y61, y60, y71, y70;
+
+    PARTS:
+    DMux8Way (in = x1, sel2 = s2, sel1 = s1, sel0 = s0, a = y01, b = y11, c = y21, d = y31, e = y41, f = y51, g = y61, h = y71);
+    DMux8Way (in = x0, sel2 = s2, sel1 = s1, sel0 = s0, a = y00, b = y10, c = y20, d = y30, e = y40, f = y50, g = y60, h = y70);
+}

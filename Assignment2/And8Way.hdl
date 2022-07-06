@@ -1,0 +1,9 @@
+CHIP And8Way {
+    IN a, b, c, d, e, f, g, h;
+    OUT out;
+
+    PARTS:
+    And4Way (a = a, b = b, c = c, d = d, out = temp1);
+    And4Way (a = e, b = f, c = g, d = h, out = temp2);
+    And (a = temp1, b = temp2, out = out);
+}

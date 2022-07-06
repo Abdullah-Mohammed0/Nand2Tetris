@@ -1,0 +1,16 @@
+CHIP Q4 {
+    IN x7, x6, x5, x4, x3, x2, x1, x0, y7, y6, y5, y4, y3, y2, y1, y0;
+    OUT z;
+
+    PARTS:
+    Xnor (a = x0, b = y0, out = w0);
+    Xnor (a = x1, b = y1, out = w1);
+    Xnor (a = x2, b = y2, out = w2);
+    Xnor (a = x3, b = y3, out = w3);
+    Xnor (a = x4, b = y4, out = w4);
+    Xnor (a = x5, b = y5, out = w5);
+    Xnor (a = x6, b = y6, out = w6);
+    Xnor (a = x7, b = y7, out = w7);
+
+    And8Way (a = w0, b = w1, c = w2, d = w3, e = w4, f = w5, g = w6, h = w7, out = z);
+}
