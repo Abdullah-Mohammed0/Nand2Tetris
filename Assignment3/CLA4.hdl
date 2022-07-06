@@ -1,0 +1,11 @@
+CHIP CLA4 {
+    IN P[4], G[4], c;
+    OUT carry;
+
+    PARTS:
+    And5Way (a = P[3], b = P[2], c = P[1], d = P[0], e = c, out = temp1);
+    And4Way (a = P[3], b = P[2], c = P[1], d = G[0], out = temp2);
+    And3Way (a = P[3], b = P[2], c = G[1], out = temp3);
+    And (a = P[3], b = G[2], out = temp4);
+    Or5Way (a = temp1, b = temp2, c = temp4, d = temp4, e = G[3], out = carry);
+}

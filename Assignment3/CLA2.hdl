@@ -1,0 +1,9 @@
+CHIP CLA2 {
+    IN P[4], G[4], c;
+    OUT carry;
+
+    PARTS:
+    And3Way (a = P[1], b = P[0], c = c, out = temp1);
+    And (a = P[1], b = G[0], out = temp2);
+    Or3Way (a = temp1, b = temp2, c = G[1], out = carry);
+}

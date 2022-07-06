@@ -1,0 +1,10 @@
+CHIP CLAsum {
+    IN P[4], c0, c1, c2, c3;
+    OUT sum[4];
+
+    PARTS:
+    Xor (a = P[0], b = c0, out = sum[0]);
+    Xor (a = P[1], b = c1, out = sum[1]);
+    Xor (a = P[2], b = c2, out = sum[2]);
+    Xor (a = P[3], b = c3, out = sum[3]);
+}

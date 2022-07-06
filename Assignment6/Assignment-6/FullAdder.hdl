@@ -1,0 +1,11 @@
+CHIP FullAdder {
+   IN a,b,c; 
+   OUT s,carry;
+   
+   PARTS:
+    And(a = a, b = b, out = temp1);
+    And(a = b, b = c, out = temp2);
+    And(a = c, b = a, out = temp3);
+    Xor3way (a = a, b = b, c = c, out = s);
+    Or3way (a = temp1, b = temp2, c = temp3, out = carry);
+}

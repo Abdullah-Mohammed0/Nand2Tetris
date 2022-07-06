@@ -1,0 +1,15 @@
+CHIP CLA4bit {
+    IN x[4], y[4], c;
+    OUT sum[4], carry;
+
+    PARTS:
+    Xor4 (a = x, b = y, out = P);
+    And4 (a = x, b = y, out = G);
+
+    CLA1 (P = P, G = G, c = c, carry = carry1);
+    CLA2 (P = P, G = G, c = c, carry = carry2);
+    CLA3 (P = P, G = G, c = c, carry = carry3);
+    CLA4 (P = P, G = G, c = c, carry = carry);
+
+    CLAsum (P = P, c0 = c, c1 = carry1, c2 = carry2, c3 = carry3, sum = sum);
+}

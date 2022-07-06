@@ -1,0 +1,54 @@
+CHIP CLA4bit-unsigned {
+    IN x0,x1,x2,x3,y0,y1,y2,y3,c0,op;
+    OUT s0,s1,s2,s3,c;
+    PARTS:
+    Xor(a = y0, b = op, out = yy0);
+    Xor(a = y1, b = op, out = yy1);
+    Xor(a = y2, b = op, out = yy2);
+    Xor(a = y3, b = op, out = yy3);
+
+    Xor(a = x0, b = yy0, out = p0);
+    Xor(a = x1, b = yy1, out = p1);
+    Xor(a = x2, b = yy2, out = p2);
+    Xor(a = x3, b = yy3, out = p3);
+
+    And(a = x0, b = yy0, out = g0);
+    And(a = x1, b = yy1, out = g1);
+    And(a = x2, b = yy2, out = g2);
+    And(a = x3, b = yy3, out = g3);
+
+    //s0
+    Xor(a = p0, b = c0, out = s0);
+
+    //c1
+    And(a = p0, b = c0, out = temp10);
+    Or(a = temp10, b = g0, out = c1);
+
+    //s1
+    Xor(a = p1, b = c1, out = s1);
+
+    //c2
+    And3Way(a = p1, b = p0, c = c0, out = temp20);
+    And(a = p1, b = g0, out = temp21);
+    Or3way(a = temp20, b = temp21, c = g1, out = c2);
+
+    //s2
+    Xor(a = p2, b = c2, out = s2);
+
+    //c3
+    And4Way(a = p2, b = p1, c = p0, d = c0, out = temp30);
+    And3Way(a = p2, b = p1, c = g0, out = temp31);
+    And(a = p2, b = g1, out = temp32);
+    Or4way(a = temp30, b = temp31, c = temp32, d = g2, out = c3);
+    
+    //s3
+    Xor(a = p3, b = c3, out = s3);
+
+    // c4
+    And5Way(a = p3, b = p2, c = p1, d = p0, e = c0, out = temp40);
+    And4Way(a = p3, b = p2, c = p1, d = g0, out = temp41);
+    And3Way(a = p3, b = p2, c = g1, out = temp42);
+    And(a = p3, b = g2, out = temp43);
+    Or5way(a = temp40, b = temp41, c = temp42, d = temp43, e = g3, out = c);
+
+}

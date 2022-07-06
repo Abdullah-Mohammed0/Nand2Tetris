@@ -1,0 +1,8 @@
+CHIP Or8way {
+    IN a,b,c,d,e,f,g,h;
+    OUT out;
+    PARTS:
+    Or4way(a = a, b = b, c = c, d = d, out = temp1);
+    Or4way(a = e, b = f, c = g, d = h, out = temp2);
+    Or(a = temp1, b = temp2, out = out);
+}

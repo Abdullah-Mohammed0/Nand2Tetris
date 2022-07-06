@@ -1,0 +1,67 @@
+CHIP SAS {
+    IN a[8], b[8], op;               // op = 0 -> add       op = 1 -> subtract
+    OUT out[8], of;           
+    PARTS:
+ 
+    // taking complement of b and generating pi and gi
+    Xor(a = b[0], b = op, out = bb0);
+    Xor(a = a[0], b = bb0, out = p0);
+    Xor(a = b[1], b = op, out = bb1);
+    Xor(a = a[1], b = bb1, out = p1);
+    Xor(a = b[2], b = op, out = bb2);
+    Xor(a = a[2], b = bb2, out = p2);
+    Xor(a = b[3], b = op, out = bb3);
+    Xor(a = a[3], b = bb3, out = p3);
+    Xor(a = b[4], b = op, out = bb4);
+    Xor(a = a[4], b = bb4, out = p4);
+    Xor(a = b[5], b = op, out = bb5);
+    Xor(a = a[5], b = bb5, out = p5);
+    Xor(a = b[6], b = op, out = bb6);
+    Xor(a = a[6], b = bb6, out = p6);
+    Xor(a = b[7], b = op, out = bb7);
+    Xor(a = a[7], b = bb7, out = p7);
+
+    And(a = a[0], b = bb0, out = g0);
+    And(a = a[1], b = bb1, out = g1);
+    And(a = a[2], b = bb2, out = g2);
+    And(a = a[3], b = bb3, out = g3);
+    And(a = a[4], b = bb4, out = g4);
+    And(a = a[5], b = bb5, out = g5);
+    And(a = a[6], b = bb6, out = g6);
+    And(a = a[7], b = bb7, out = g7);
+
+    //------------------------------------------------------------------------------------------------
+    //generating the Pi' and Gi'
+    And4Way(a = p3, b = p2, c = p1, d = p0, out = pp01);
+    And4Way(a = p3, b = p2, c = p1, d = g0, out = temp01);
+    And3Way(a = p3, b = p2, c = g1, out = temp02);
+    And(a = p3, b = g2, out = temp03);
+    Or4way(a = temp01, b = temp02, c = temp03, d = g3, out = gg01);
+
+    And4Way(a = p7, b = p6, c = p5, d = p4, out = pp11);
+    And4Way(a = p7, b = p6, c = p5, d = g4, out = temp11);
+    And3Way(a = p7, b = p6, c = g5, out = temp12);
+    And(a = p7, b = g6, out = temp13);
+    Or4way(a = temp11, b = temp12, c = temp13, d = g7, out = gg11);
+   
+    //---------------------------------------------------------------------------------------------
+    //first module:
+    CLA4bit-higher-signed (p0 = p0, p1 = p1, p2 = p2, p3 = p3, g0 = g0, g1 = g1, g2 = g2, g3 = g3, c0 = op, op = op, s0 = out[0], s1 = out[1], s2 = out[2], s3 = out[3], c = c3);
+    
+
+    //c4 :
+    And(a = pp01, b = op, out = inter11);
+    Or(a = inter11, b = gg01, out = c4);
+  
+    //second module:
+    CLA4bit-higher-signed (p0 = p4, p1 = p5, p2 = p6, p3 = p7, g0 = g4, g1 = g5, g2 = g6, g3 = g7, c0 = c4, op = op, s0 = out[4], s1 = out[5], s2 = out[6], s3 = out[7], c = c7);
+
+    //c8:
+    And3Way(a = pp11, b = pp01, c = op, out = inter21);
+    And(a = pp11, b = gg01, out = inter22);
+    Or3way(a = inter21, b = inter22, c = gg11, out = c8);
+
+    //overflow
+    Xor(a = c7, b = c8, out = of);
+   
+}

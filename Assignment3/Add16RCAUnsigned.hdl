@@ -1,0 +1,41 @@
+CHIP Add16RCAUnsigned {
+    IN x[16], y[16], AoS;
+    OUT z[16], of;
+
+    PARTS:
+    Xor (a = y[0], b = AoS, out = w0);
+    Xor (a = y[1], b = AoS, out = w1);
+    Xor (a = y[2], b = AoS, out = w2);
+    Xor (a = y[3], b = AoS, out = w3);
+    Xor (a = y[4], b = AoS, out = w4);
+    Xor (a = y[5], b = AoS, out = w5);
+    Xor (a = y[6], b = AoS, out = w7);
+    Xor (a = y[7], b = AoS, out = w8);
+    Xor (a = y[8], b = AoS, out = w8);
+    Xor (a = y[9], b = AoS, out = w9);
+    Xor (a = y[10], b = AoS, out = w10);
+    Xor (a = y[11], b = AoS, out = w11);
+    Xor (a = y[12], b = AoS, out = w12);
+    Xor (a = y[13], b = AoS, out = w13);
+    Xor (a = y[14], b = AoS, out = w14);
+    Xor (a = y[15], b = AoS, out = w15);
+
+    FullAdder (a = x[0], b = w0, c = AoS, sum = z[0], carry = carry1);
+    FullAdder (a = x[1], b = w1, c = carry1, sum = z[1], carry = carry2);
+    FullAdder (a = x[2], b = w2, c = carry2, sum = z[2], carry = carry3);
+    FullAdder (a = x[3], b = w3, c = carry3, sum = z[3], carry = carry4);
+    FullAdder (a = x[4], b = w4, c = carry4, sum = z[4], carry = carry5);
+    FullAdder (a = x[5], b = w5, c = carry5, sum = z[5], carry = carry6);
+    FullAdder (a = x[6], b = w6, c = carry6, sum = z[6], carry = carry7);
+    FullAdder (a = x[7], b = w7, c = carry7, sum = z[7], carry = carry8);
+    FullAdder (a = x[8], b = w8, c = carry8, sum = z[8], carry = carry9);
+    FullAdder (a = x[9], b = w9, c = carry9, sum = z[9], carry = carry10);
+    FullAdder (a = x[10], b = w10, c = carry10, sum = z[10], carry = carry11);
+    FullAdder (a = x[11], b = w11, c = carry11, sum = z[11], carry = carry12);
+    FullAdder (a = x[12], b = w12, c = carry12, sum = z[12], carry = carry13);
+    FullAdder (a = x[13], b = w13, c = carry13, sum = z[13], carry = carry14);
+    FullAdder (a = x[14], b = w14, c = carry14, sum = z[14], carry = carry15);
+    FullAdder (a = x[15], b = w15, c = carry15, sum = z[15], carry = carry16);
+
+    Xor (a = carry16, b = AoS, out = of);
+}

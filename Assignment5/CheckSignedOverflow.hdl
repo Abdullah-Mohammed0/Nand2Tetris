@@ -1,0 +1,28 @@
+CHIP CheckSignedOverflow {
+    IN x7, y7, a[16];
+    OUT out;
+    PARTS:
+    
+    Or9way(a = a[7], b = a[8]], c = a[9], d = a[10], e = a[11], f = a[12], g = a[13], h = a[14], i = a[15], out = w1);
+
+    Not (in = a[7], out = nota7);
+    Not (in = a[8], out = nota8);
+    Not (in = a[9], out = nota9);
+    Not (in = a[10], out = nota10);
+    Not (in = a[11], out = nota11);
+    Not (in = a[12], out = nota12);
+    Not (in = a[13], out = nota13);
+    Not (in = a[14], out = nota14);
+    Not (in = a[15], out = nota15);
+
+    Or9way(a = nota7, b = nota8, c = nota9, d = nota10, e = nota11, f = nota12, g = nota13, h = nota14, i = nota15, out = w2);
+
+    Xor (a = x7, b = y7, out = x7Xory7);
+    Not (in = x7Xory7, out = x7Xnory7);
+
+    And (a = w1, b = x7Xnory7, out = temp1);    // Overflow in case of same sign
+    And (a = w2, b = x7Xory7, out = temp2);     // Overflow in case of opposite sign
+
+    Or (a = temp1, b = temp2, out = out);
+
+}

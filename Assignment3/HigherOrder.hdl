@@ -1,0 +1,7 @@
+CHIP HigherOrder {
+    IN ;
+    OUT ;
+
+    PARTS:
+    
+}

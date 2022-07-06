@@ -1,0 +1,14 @@
+CHIP Create-Output {
+    IN a[16];
+    OUT out[8];
+
+    PARTS:
+    And(a = a[0], b = true, out = out[0]);
+    And(a = a[1], b = true, out = out[1]);
+    And(a = a[2], b = true, out = out[2]);
+    And(a = a[3], b = true, out = out[3]);
+    And(a = a[4], b = true, out = out[4]);
+    And(a = a[5], b = true, out = out[5]);
+    And(a = a[6], b = true, out = out[6]);
+    And(a = a[7], b = true, out = out[7]);
+}

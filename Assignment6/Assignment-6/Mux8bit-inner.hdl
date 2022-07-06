@@ -1,0 +1,8 @@
+CHIP Mux8bit-inner{
+    IN a[12],b[12],s[16];
+    OUT out[8];
+    PARTS:
+
+    //8-bit lines are a[0..7],b[0..7] and select line is s[15] (2-to-1 8-bit MUX)
+    Mux8bit(a=a[0..7],b=b[0..7],sel=s[15],out=out);
+}

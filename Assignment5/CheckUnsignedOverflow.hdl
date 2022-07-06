@@ -1,0 +1,9 @@
+CHIP CheckUnsignedOverflow {
+    IN a[16];
+    OUT out;
+    PARTS:
+    
+    Or8way(a = a[8], b = a[9], c = a[10], d = a[11], e = a[12], f = a[13], g = a[14], h = a[15], out = out);
+    
+        
+}

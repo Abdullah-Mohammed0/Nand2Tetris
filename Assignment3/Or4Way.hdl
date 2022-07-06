@@ -1,0 +1,8 @@
+CHIP Or4Way {
+    IN a, b, c, d;
+    OUT out;
+
+    PARTS:
+    Or3Way (a = a, b = b, c = c, out = temp1);
+    Or (a = temp1, b = d, out = out);
+}

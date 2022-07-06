@@ -1,0 +1,44 @@
+CHIP ALU {
+    IN x[8], y[8], UorS, opcode[3];
+    OUT z[8], of, equal;
+
+    PARTS:
+
+    // Logical operations :
+    And8bit (a = x, b = y, out = xANDy);
+    Or8bit (a = x, b = y, out = xORy);
+    Xor8bit (a = x, b = y, out = xXORy);
+
+    // Addition 
+    UAS (a = x, b = y, op = false, out = xUAy, of = ofUA);
+    SAS (a = x, b = y, op = false, out = xSAy, of = ofSA);
+    Mux8bit (a = xUAy, b = xSAy, sel = UorS, out = xADDy);
+
+    // Subtraction
+    UAS (a = x, b = y, op = true, out = xUSy, of = ofUS);
+    SAS (a = x, b = y, op = true, out = xSSy, of = ofSS);
+    Mux8bit (a = xUSy, b = xSSy, sel = UorS, out = xSUBy);
+
+    // Unsigned multiplication
+    UM (x = x, y = y, out = xUMULy, of = ofUM);
+
+    // Signed Multiplication 
+    SM (x = x, y = y, out = xIMULy, of = ofSM);
+
+
+    // Calculating z
+    Mux8bit4way (a = false, b = xANDy, c = xORy, d = xXORy, sel = opcode[0..1], out = temp1); 
+    Mux8bit4way (a = xADDy, b = xSUBy, c = xUMULy, d = xIMULy, sel = opcode[0..1], out = temp2);
+    Mux8bit (a = temp1, b = temp2, sel = opcode[2], out = z);
+
+    // Overflow for addition/subtraction
+    Mux (a = ofUA, b = ofSA, sel = UorS, out = ofADD);
+    Mux (a = ofUS, b = ofSS, sel = UorS, out = ofSUB);
+
+    // Calculating of (overflow)
+    Mux4way (a = ofADD, b = ofSUB, c = ofUM, d = ofSM, sel = opcode[0..1], out = ofArithmetic);
+    Mux (a = false, b = ofArithmetic, sel = opcode[2], out = of);
+
+    // Checking equality
+    Comparator (x = x, y = y, out = equal);
+}

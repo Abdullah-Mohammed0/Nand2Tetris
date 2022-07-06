@@ -1,0 +1,16 @@
+CHIP Comparator {
+    IN x[8], y[8]];
+    OUT out;
+
+    PARTS:
+    Xnor (a = x[0], b = y[0], out = w0);
+    Xnor (a = x[1], b = y[1], out = w1);
+    Xnor (a = x[2], b = y[2], out = w2);
+    Xnor (a = x[3], b = y[3], out = w3);
+    Xnor (a = x[4], b = y[4], out = w4);
+    Xnor (a = x[5], b = y[5], out = w5);
+    Xnor (a = x[6], b = y[6], out = w6);
+    Xnor (a = x[7], b = y[7], out = w7);
+
+    And8Way (a = w0, b = w1, c = w2, d = w3, e = w4, f = w5, g = w6, h = w7, out = out);
+}

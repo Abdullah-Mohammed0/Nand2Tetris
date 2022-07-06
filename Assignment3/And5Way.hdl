@@ -1,0 +1,8 @@
+CHIP And5Way {
+    IN a, b, c, d, e;
+    OUT out;
+
+    PARTS:
+    And4Way (a = a, b = b, c = c, d = d, out = temp1);
+    And (a = temp1, b = e, out = out);
+}

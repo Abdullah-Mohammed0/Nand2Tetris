@@ -1,0 +1,8 @@
+CHIP Mux7bit-inner{
+    IN a[16];
+    OUT out[7];
+    PARTS:
+
+    //7-bit lines are a[7..13],a[8..14] and select line is a[15] (2-to-1 7-bit MUX)
+    Mux7bit(a=a[7..13],b=a[8..14],sel=a[15],out=out);
+}

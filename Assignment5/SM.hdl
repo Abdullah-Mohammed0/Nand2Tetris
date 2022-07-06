@@ -1,0 +1,46 @@
+CHIP SM {
+    IN x[8], y[8];
+    OUT out[8], of;
+    PARTS:
+
+    // Partial product (PP) generation for the first 7 partial products
+    PPgen(a[0..7] = x, a[8] = x[7], a[9] = x[7], a[10] = x[7], a[11] = x[7], a[12] = x[7], a[13] = x[7], a[14] = x[7], a[15] = x[7], b = y[0], out = pp0);
+    PPgen(a[0] = false, a[1..8] = x, a[9] = x[7], a[10] = x[7], a[11] = x[7], a[12] = x[7], a[13] = x[7], a[14] = x[7], a[15] = x[7], b = y[1], out = pp1);
+    PPgen(a[0..1] = false, a[2..9] = x, a[10] = x[7], a[11] = x[7], a[12] = x[7], a[13] = x[7], a[14] = x[7], a[15] = x[7], b = y[2], out = pp2);
+    PPgen(a[0..2] = false, a[3..10] = x, a[11] = x[7], a[12] = x[7], a[13] = x[7], a[14] = x[7], a[15] = x[7], b = y[3], out = pp3);
+    PPgen(a[0..3] = false, a[4..11] = x, a[12] = x[7], a[13] = x[7], a[14] = x[7], a[15] = x[7], b = y[4], out = pp4);
+    PPgen(a[0..4] = false, a[5..12] = x, a[13] = x[7], a[14] = x[7], a[15] = x[7], b = y[5], out = pp5);
+    PPgen(a[0..5] = false, a[6..13] = x, a[14] = x[7], a[15] = x[7], b = y[6], out = pp6);
+
+    // Generating ~(X * y[7]) * (2 ^ 7)
+    PPgenComp(a[0..6] = false, a[7..14] = x, a[15] = x[7], b = y[7], out = pp7);  
+
+    // Summand Addition Tree
+
+    // Level 0 to 1
+    CSA3to2(a = pp0, b = pp1, c = pp2, s = s10, carry = c10);
+    CSA3to2(a = pp3, b = pp4, c = pp5, s = s11, carry = c11);
+    // Sending an additional summand = 2 ^ 7 in the third Level 0 to 1 reducer
+    CSA3to2(a = pp6, b = pp7, c[0..6] = false, c[7] = true, c[8..15] = false, s = s12, carry = c12);
+
+    // Level 1 to 2
+    CSA3to2(a = c10, b = s10, c = c11, s = s20, carry = c20);
+    CSA3to2(a = s11, b = c12, c = s12, s = s21, carry = c21);
+
+    // Level 2 to 3
+    CSA3to2(a = c20, b = s20, c = c21, s = s30, carry = c30);
+
+    // Level 3 to 4
+    CSA3to2(a = c30, b = s30, c = s21, s = s40, carry = c40);
+
+
+    // 16 - bit adder using higher order propagate and generate terms
+    HigherOrderCLA(a = s40, b = c40, op = false, out = sum, of = claof);
+
+    // Check overflow
+    CheckSignedOverflow(x7 = x[7], y7 = y[7], a = sum, out = of);
+    
+    // Generate output - Sends 8 bits ( sum[7] sum[6] ... sum[0] ) to the output
+    Create-Output(a = sum, out = out);
+   
+}

@@ -1,0 +1,27 @@
+CHIP FPMultiplier {
+    IN a[16],b[16];
+    OUT out[16];
+    
+    PARTS:
+
+    //Generating sign bit
+    Xor(a=a[15],b=b[15],out=out[15]);
+
+    //Mantissa multiplier 
+    UM(x[0..6]=a[0..6],x[7]=true,y[0..6]=b[0..6],y[7]=true,out=temp);
+    
+    //Generating result mantissa using Mux7bit
+    Mux7bit-inner(a=temp,out=out[0..6]);
+
+    //Biased exponents Adder
+    UA(a=a[7..14],b=b[7..14],op=false,out=e9);
+
+    //Subtraction of result of exponent Adder and bias
+    US(a[0..8]=e9,a[9..11]=false,b[0..6]=true,b[7..11]=false,op=true,out=t15f);
+
+    //Subtraction of result of exponent Adder and (bias-1)
+    US(a[0..8]=e9,a[9..11]=false,b[0]=false,b[1..6]=true,b[7..11]=false,op=true,out=t15t);
+
+    //Generating exponent of result using Mux8bit
+    Mux8bit-inner(a=t15f,b=t15t,s=temp,out=out[7..14]);
+}

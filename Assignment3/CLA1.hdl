@@ -1,0 +1,8 @@
+CHIP CLA1 {
+    IN P[4], G[4], c;
+    OUT carry;
+
+    PARTS:
+    And (a = P[0], b = c, out = temp1);
+    Or  (a = temp1, b = G[0], out = carry);
+}

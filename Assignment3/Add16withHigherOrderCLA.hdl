@@ -1,0 +1,8 @@
+CHIP Add16withHigherOrderCLASigned {
+    IN x[16], y[16];
+    OUT z[16], of;
+
+    PARTS:
+
+    
+}
