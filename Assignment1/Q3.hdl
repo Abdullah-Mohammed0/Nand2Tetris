@@ -1,0 +1,13 @@
+CHIP Q3 {
+    IN x[4];
+    OUT out[2];
+
+    PARTS:
+    Not (in = x[3], out = notx3);
+    Not (in = x[2], out = notx2);
+    Not (in = x[1], out = notx1);
+
+    And (a = notx3, b = notx2, out = out[1]);
+    Or (a = x[2], b = notx1, out = inter);
+    And (a = notx3, b = inter, out = out[0]);
+}

@@ -1,0 +1,14 @@
+CHIP Q4 {
+    IN x[2];
+    OUT out[4];
+
+    PARTS:
+    Not (in = x[1], out = notx1);
+    Not (in = x[0], out = notx0);
+
+    And (a = notx1, b = notx0, out = out[3]);
+    And (a = notx1, b = x[0], out = out[2]);
+    And (a = x[1], b = notx0, out = out[1]);
+    And (a = x[1], b = x[0], out = out[0]);
+    
+}
